@@ -1,0 +1,49 @@
+% Encoding: UTF-8
+
+@Article{W11,
+  author  = {Joakim Wid{\'e}n},
+  title   = {Correlations Between Large-Scale Solar and Wind Power in a Future Scenario for Sweden},
+  journal = {IEEE Transactions on Sustainable Energy},
+  year    = {2011},
+  volume  = {2},
+  pages   = {177-184},
+}
+
+@Article{GK16,
+  author  = {I. Graabak and M. Korp{\aa}s},
+  title   = {Variability Characteristics of European Wind and Solar Power Resources—A Review},
+  journal = {Energies},
+  year    = {2016},
+  volume  = {9},
+  pages   = {449},
+}
+
+@Article{BETT16,
+  author   = {Philip E. Bett and Hazel E. Thornton},
+  title    = {The climatological relationships between wind and solar energy supply in Britain},
+  journal  = {Renewable Energy},
+  year     = {2016},
+  volume   = {87},
+  pages    = {96-110},
+  issn     = {0960-1481},
+  abstract = {We use reanalysis data to investigate the daily co-variability of wind and solar irradiance in Britain, and its implications for renewable energy supply balancing. The joint distribution of daily-mean wind speeds and irradiances shows that irradiance has a much stronger seasonal cycle than wind, due to the rotational tilt of the Earth. Irradiance is weakly anticorrelated with wind speed throughout the year (−0.4≲ρ≲−0.2): there is a weak tendency for windy days to be cloudier. This is particularly true in Atlantic-facing regions (western Scotland, south-west England). The east coast of Britain has the weakest anticorrelation, particularly in winter, primarily associated with a relative increase in the frequency of clear-but-windy days. We also consider the variability in total power output from onshore wind turbines and solar photovoltaic panels. In all months, daily variability in total power is always reduced by incorporating solar capacity. The scenario with the least seasonal variability is approximately 70%-solar to 30%-wind. This work emphasises the importance of considering the full distribution of daily behaviour rather than relying on long-term average relationships or correlations. In particular, the anticorrelation between wind and solar power in Britain cannot solely be relied upon to produce a well-balanced energy supply.},
+  doi      = {https://doi.org/10.1016/j.renene.2015.10.006},
+  keywords = {Wind power generation, Solar PV power generation, Climatology, Energy balancing, Reanalysis, Seasonal variability},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0960148115303591},
+}
+
+@Book{RePEc:spr:isorms:978-1-4419-7421-1,
+  title     = {{Decision Making Under Uncertainty in Electricity Markets}},
+  publisher = {Springer},
+  year      = {2010},
+  author    = {Antonio J. Conejo and Miguel Carrión and Juan M. Morales},
+  number    = {978-1-4419-7421-1},
+  series    = {International Series in Operations Research and Management Science},
+  month     = {March},
+  isbn      = {ARRAY(0x5089d360)},
+  abstract  = {No abstract is available for this item.},
+  doi       = {10.1007/978-1-4419-7421-1},
+  url       = {https://ideas.repec.org/b/spr/isorms/978-1-4419-7421-1.html},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
