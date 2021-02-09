@@ -6,9 +6,9 @@ In the introduction we mentioned the three major trading places for energy, name
 	\item The adjustment market is cleared at time period $t^{A}$ of day $d-1$. Please note that time period $t^{A}$ takes place \textit{after} time period $t^{D}$.
 	\item The balancing market ensures the real-time balancing between the generation of and demand for energy by balancing out differences between the real-time operation and the last energy program settled on in the previous markets. Therefore, it is cleared just before each time period of day $d$. 
 \end{list}
-There are three major decision the hybrid energy producer has to face. First, he has to submit an offering curve to the day-ahead market for each time period of day $d$. Then, he has to modify the submitted energy offers in the adjustment market depending on how the wind and solar power forecast updates change. Finally, he balances out his energy deviations by trading in the balancing market for each time period of day $d$. From now on, we assume hourly periods. This means that the balancing market for the time period 6.00-7.00 am of day $d$ closes at 5.50 am of day $d$. 
+There are three major decisions the hybrid energy producer has to face. First, he has to submit an offering curve to the day-ahead market for each time period of day $d$. Then, he has to modify the submitted energy offers in the adjustment market depending on how the wind and solar power forecast updates change. Finally, he needs to balance out his energy deviations by trading in the balancing market for each time period of day $d$. From now on, we assume hourly periods. This means that the balancing market for the time period 6.00-7.00 am of day $d$ closes at 5.50 am of day $d$. 
 \\
-\\ The producer faces several factors that influence his short-term decision making process. It is inevitable to account for the imbalance costs, i.e. the costs entailed bx deviations in the energy production. Apart from that, he is influenced by all sorts of mechanisms through which energy deviations are priced in the balancing market and the beneficial impact of an adjustment market clearing after the clearance of the day-ahead market. Energy deviations are not unusual for producers of non-dispatchable energy sources as windspeed and solar irradiance exert a high variability. As soon as a producer deviates from his agreed-upon amount of energy he had traded on the market before, he has to sell its surplus or buy his generation deficit at an \textit{imbalance price}. We denote the price for positive energy deviations, i.e. higher production than planned, by $\lambda_{t}^{+}$ and the price for negative energy deviations by $\lambda_{t}^{-}$. If the producer faces a negative system imbalance $\delta_{t}$, which means there is a deficit of energy generation, we have
+\\ The producer faces several factors that influence his short-term decision making process. It is inevitable to account for the imbalance costs, i.e. the costs entailed by deviations in the energy production. Apart from that, he is influenced by all sorts of mechanisms through which energy deviations are priced in the balancing market and the beneficial impact of an adjustment market clearing after the clearance of the day-ahead market. Energy deviations are not unusual for producers of non-dispatchable energy sources as windspeed and solar irradiance exert a high variability. As soon as a producer deviates from his agreed-upon amount of energy he had traded on the market before, he has to sell its surplus or buy his generation deficit at an \textit{imbalance price}. We denote the price for positive energy deviations, i.e. higher production than planned, by $\lambda_{t}^{+}$, and the price for negative energy deviations by $\lambda_{t}^{-}$. If the producer faces a negative system imbalance $\delta_{t}$, which means there is a deficit of energy generation, we have
 \begin{align*}
 	&\lambda_{t}^{+}=\lambda_{t}^{D}
 	\\ &\lambda_{t}^{-}=max\left(\lambda_{t}^{D}, \lambda_{t}^{UP}\right),
@@ -28,7 +28,7 @@ where we write $I_{t}$ for the imbalance income. Note that this can be either po
 \begin{equation*}
 	\Delta_{t}=E_{t}-E_{t}^{D}=d_{t}\left(P_{t}-P_{t}^{D}\right)
 \end{equation*}
-indicating the timespan by $d_{t}$ and the actual resp. offered amount of power by $P_{t}$ resp. $P_{t}^{D}$. Applying this notation, we can write
+indicating the timespan by $d_{t}$ and the actual resp.\ offered amount of power by $P_{t}$ resp.\ $P_{t}^{D}$. Applying this notation, we can write
 \begin{align*}
 	I_{t}= \begin{cases}
 		\lambda_{t}^{+}\Delta_{t} &\mathrm{\; if \;} \Delta_{t} \geq 0,
@@ -42,15 +42,15 @@ and define the ratios
 Thus, the revenue can be rewritten as
 \begin{align*}
 	R_{t}= \begin{cases}
-		\lambda_{t}^{+}\left(E_{t}\right)+\lambda_{t}^{D}r_{t}^	{+}\Delta_{t} &\mathrm{\; if \;} \Delta_{t} > 0,-\Delta_{t}
-		\\ \lambda_{t}^{+}\left(E_{t}\right)+\lambda_{t}^{D}r_{t}^	{-}\Delta_{t} &\mathrm{\; if \;} \Delta_{t}< 0
+		\lambda_{t}^{+}\left(E_{t}-\Delta_{t}\right)+\lambda_{t}^{D}r_{t}^	{+}\Delta_{t} &\mathrm{\; if \;} \Delta_{t} > 0,
+		\\ \lambda_{t}^{+}\left(E_{t}-\Delta_{t}\right)+\lambda_{t}^{D}r_{t}^	{-}\Delta_{t} &\mathrm{\; if \;} \Delta_{t}< 0
 	\end{cases}
 \end{align*} 
 In general, we can also formulate the revenue in terms of the maximum level of revenue, which could be realised in a situation free of wind and irradiance uncertainty, and the imbalance cost, which we define as $C_{t}$
 \begin{equation*}
 	C_{t}=\begin{cases}
 		\lambda_{t}\left(1-r_{t}^{+}\right)\Delta_{t} &\mathrm{\; if \;} \Delta_{t}>0
-		\\ -\lambda_{t}^{D}\left(r_{t}^{--1}\right)\Delta_{t} &\mathrm{\; if \;} \Delta_{t}<0.
+		\\ -\lambda_{t}^{D}\left(r_{t}^{-}-1\right)\Delta_{t} &\mathrm{\; if \;} \Delta_{t}<0.
 	\end{cases}
 \end{equation*}
 This characterisation renders it possible to give a more concise formulation of the revenue 
@@ -60,9 +60,9 @@ This characterisation renders it possible to give a more concise formulation of 
 which makes it easy to deduce that maximising the revenue is equivalent to minimising the imbalance costs. 
 \\ \\
 We face four major sources of uncertainty. The most essential source of uncertainty is the weather, which influences both the wind and solar power generation. Apart from that, we have uncertainty concerning the market characteristics like day-ahead market price, adjustment market price and the prices for imbalance.
-For our purpose, we consider $N_{T}$ periods of the market horizon, $N_{D}$ scenarios for day-ahead prices and $N_{A}$ scenarios for the adjustment market prices. Thus, we have several realisations of day-ahead and adjustment market prices, which we summarise in
+For our purpose, we consider $N_{T}$ periods of the market horizon, $N_{D}$ scenarios for day-ahead prices, and $N_{A}$ scenarios for the adjustment market prices. Thus, we have several realisations of day-ahead and adjustment market prices, which we summarise in
 \begin{align*}
 	\lambda^{D}=\left\{\lambda_{t}^{D} \quad \lvert \quad t \in \left\{1, .., N_{T}\right\}\right\}
 	\\ \lambda^{A}=\left\{\lambda_{t}^{A}\quad \lvert \quad t \in \left\{1, .., N_{A}\right\}\right\}.
 \end{align*}
-The hybrid power producer has to adhere the following sequence of decisions. First, the designs an offer strategy for the day-ahead market and submits his selling offers for each period of the market horizon. Second, once the day-ahead market is known for each time period, he has to decide on the amount of energy that he wishes to sell or buy from the adjustment market. As soon as the adjustment market prices are known as well as the imbalance prices and the generated wind and solar power, the producer knows his level of imbalance and can compute the resulting costs for the latter.  
+The hybrid power producer has to adhere the following sequence of decisions. First, he designs an offer strategy for the day-ahead market and submits his selling offers for each period of the market horizon. Second, once the day-ahead market price is known for each time period, he has to decide on the amount of energy that he wishes to sell or buy from the adjustment market. As soon as the adjustment market prices are known as well as the imbalance prices and the generated wind and solar power, the producer knows his level of imbalance and can compute the resulting costs for the latter.  
