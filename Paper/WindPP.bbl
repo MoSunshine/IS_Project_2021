@@ -1,5 +1,11 @@
 \begin{thebibliography}{1}
 
+\bibitem{Coker2013}
+J.~Barlow, T.~Cokerill, P.~Coker, and D.~Shipworth.
+\newblock Measuring significant variability characteristics: An assessment of
+  three uk renewables.
+\newblock {\em Renewable Energy}, 53:111--120, 2013.
+
 \bibitem{BETT16}
 Philip~E. Bett and Hazel~E. Thornton.
 \newblock The climatological relationships between wind and solar energy supply
@@ -11,6 +17,13 @@ Antonio~J. Conejo, Miguel Carrión, and Juan~M. Morales.
 \newblock {\em {Decision Making Under Uncertainty in Electricity Markets}}.
 \newblock Number 978-1-4419-7421-1 in International Series in Operations
   Research and Management Science. Springer, March 2010.
+
+\bibitem{Santos-Alamillos}
+F.~J. Santos-Alamillos, D.~Pozo-Vázquez, J.~A. Ruiz-Arias, V.~Lara-Fanego, and
+  J.~Tovar-Pescador.
+\newblock Analysis of spatiotemporal balancing between wind and solar energy
+  resources in the southern iberian peninsula.
+\newblock {\em J. Appl. Meteorol. Clim.}, 51(11):2005--2024, 2012.
 
 \bibitem{W11}
 Joakim Wid{\'e}n.
