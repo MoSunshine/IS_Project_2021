@@ -30,3 +30,5 @@ Paper/WindPP.log
 Paper/WindPP.pdf
 *.synctex.gz
 *.aux
+#Visual Studio Code Configurations
+/Code/src/.vscode
