@@ -74,4 +74,40 @@ For this purpose, we consider $N_{T}$ periods of the market horizon, $N_{D}$ sce
 	\lambda^{D}=\left\{\lambda_{t}^{D} \quad \lvert \quad t \in \left\{1, .., N_{T}\right\}\right\}
 	\\ \lambda^{A}=\left\{\lambda_{t}^{A}\quad \lvert \quad t \in \left\{1, .., N_{A}\right\}\right\}.
 \end{align*}
-The hybrid power producer has to adhere the following sequence of decisions. First, he designs an offer strategy for the day-ahead market and submits his selling offers for each period of the market horizon. Second, once the day-ahead market price is known for each time period, he has to decide on the amount of energy that he wishes to sell or buy from the adjustment market. As soon as the adjustment market prices are known as well as the imbalance prices and the generated wind and solar power, the producer knows his level of imbalance and can compute the resulting costs for the latter.  
+The hybrid power producer has to adhere the following sequence of decisions. First, he designs an offer strategy for the day-ahead market and submits his selling offers for each period of the market horizon. Second, once the day-ahead market price is known for each time period, he has to decide on the amount of energy that he wishes to sell or buy from the adjustment market. As soon as the adjustment market prices are known as well as the imbalance prices and the generated wind and solar power, the producer knows his level of imbalance and can compute the resulting costs for the latter. 
+
+
+\subsection{Model formulation}
+
+\begin{equation*}
+\begin{array}{c}
+\text { Maximize }_{P_{t \omega}^{\mathrm{D}}, \forall t, \forall \omega ; P_{t \omega}^{\mathrm{A}}, \forall t, \forall \omega ; \Delta_{t \omega}^{+}, \forall t, \forall \omega ; \Delta_{t \omega}^{-}, \forall t, \forall \omega ; \eta_{\omega}, \forall \omega ; \zeta} \\
+\sum_{\omega=1}^{N_{\Omega}} \sum_{t=1}^{N_{\mathrm{T}}} \pi_{\omega}\left[\lambda_{t \omega}^{\mathrm{D}} P_{t \omega}^{\mathrm{D}} d_{t}+\lambda_{t \omega}^{\mathrm{A}} P_{t \omega}^{\mathrm{A}} d_{t}+\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{+} \Delta_{t \omega}^{+}-\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{-} \Delta_{t \omega}^{-}\right] 
++\beta\left(\zeta-\frac{1}{1-\alpha} \sum_{\omega=1}^{N_{\Omega}} \pi_{\omega} \eta_{\omega}\right)
+\end{array}
+\end{equation*} 
+\begin{equation*}
+\begin{array}{c}
+0 \leq P_{t \omega}^{\mathrm{D}} \leq P_{\mathrm{max}}, \forall t, \forall \omega \\
+P_{t \omega}^{\mathrm{O}}=P_{t \omega}^{\mathrm{D}}+P_{t \omega}^{\mathrm{A}}, \forall t, \forall \omega \\
+0 \leq P_{t \omega}^{\mathrm{O}} \leq P_{\max }, \forall t, \forall \omega \\
+P_{t\omega}= P_{t\omega}^S+P_{t\omega}^W, \forall t,\forall \omega \\
+P_{\max}= P^{S}_{\max}+P^{W}_{\max},  \\
+P_{t\omega}^{S} <= P^{S}_{\max}, \forall t, \forall \omega \\
+P_{t\omega}^{W} <= P^{W}_{\max}, \forall t, \forall \omega \\
+\Delta_{t \omega}=d_{t}\left(P_{t \omega}-P_{t \omega}^{\mathrm{O}}\right), \forall t, \forall \omega \\
+\Delta_{t \omega}=\Delta_{t \omega}^{+}-\Delta_{t \omega}^{-}, \forall t, \forall \omega \\
+0 \leq \Delta_{t \omega}^{+} \leq P_{t \omega} d_{t}, \forall t, \forall \omega \\
+0 \leq \Delta_{t \omega}^{-} \leq P^{\max } d_{t}, \forall t, \forall \omega \\
+P_{t \omega}^{\mathrm{D}}-P_{t \omega^{\prime}}^{\mathrm{D}} \leq 0, \forall t, \forall \omega, \omega^{\prime}: O\left(\lambda_{t \omega}^{\mathrm{D}}\right)+1=O\left(\lambda_{t \omega^{\prime}}^{\mathrm{D}}\right) \\
+P_{t \omega}^{\mathrm{D}}=P_{t \omega^{\prime}}^{\mathrm{D}}, \forall t, \forall \omega, \omega^{\prime}: \lambda_{t \omega^{\prime}}^{\mathrm{D}}=\lambda_{t \omega}^{\mathrm{D}} \\
+P_{t \omega}^{\mathrm{A}}=P_{t \omega^{\prime}}^{\mathrm{A}}, \forall t, \forall \omega, \omega^{\prime}:\left(\lambda_{t \omega^{\prime}}^{\mathrm{D}}=\lambda_{t \omega}^{\mathrm{D}} \forall t\right) \\
+\text { and }\left(P_{\tau \omega^{\prime}}=P_{\tau \omega}, \forall \tau=1,2, \ldots, N_{\mathrm{T}_{1}}\right)
+\end{array}
+\end{equation*}
+\begin{equation*}
+-\sum_{t=1}^{N_{\mathrm{T}}}\left[\lambda_{t \omega}^{\mathrm{D}} P_{t \omega}^{\mathrm{D}} d_{t}+\lambda_{t \omega}^{\mathrm{A}} P_{t \omega}^{\mathrm{A}} d_{t}+\lambda_{t \omega}^{\mathrm{D}}\left(r_{t \omega}^{+} \Delta_{t \omega}^{+}-r_{t \omega}^{-} \Delta_{t \omega}^{-}\right)\right]+\zeta-\eta_{\omega} \leq 0, \forall \omega
+\end{equation*}
+\begin{equation*}
+\eta_{\omega} \geq 0, \quad \forall \omega
+\end{equation*}
