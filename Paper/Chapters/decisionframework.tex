@@ -18,7 +18,7 @@ Let $\delta_t$ be the system imbalance for time $t$, that means if $\delta_t<0$ 
 		\begin{equation*}
 			\lambda_{t}^+=\begin{cases}
 				\lambda_{t}^D &\mathrm{\; if \;} \delta_{t}<0
-				\\ \sout{\max}\changedByLP{min}(\lambda_t^D,\lambda_t^{DN}) &\mathrm{\; if \;} \delta_{t}\ge 0.
+				\\ \min(\lambda_t^D,\lambda_t^{DN}) &\mathrm{\; if \;} \delta_{t}\ge 0.
 			\end{cases}
 		\end{equation*}
 	\end{minipage}
@@ -79,35 +79,35 @@ The hybrid power producer has to adhere the following sequence of decisions. Fir
 
 \subsection{Model formulation}
 
-\begin{equation*}
+\begin{equation}
 \begin{array}{c}
 \text { Maximize }_{P_{t \omega}^{\mathrm{D}}, \forall t, \forall \omega ; P_{t \omega}^{\mathrm{A}}, \forall t, \forall \omega ; \Delta_{t \omega}^{+}, \forall t, \forall \omega ; \Delta_{t \omega}^{-}, \forall t, \forall \omega ; \eta_{\omega}, \forall \omega ; \zeta} \\
 \sum_{\omega=1}^{N_{\Omega}} \sum_{t=1}^{N_{\mathrm{T}}} \pi_{\omega}\left[\lambda_{t \omega}^{\mathrm{D}} P_{t \omega}^{\mathrm{D}} d_{t}+\lambda_{t \omega}^{\mathrm{A}} P_{t \omega}^{\mathrm{A}} d_{t}+\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{+} \Delta_{t \omega}^{+}-\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{-} \Delta_{t \omega}^{-}\right] 
-+\beta\left(\zeta-\frac{1}{1-\alpha} \sum_{\omega=1}^{N_{\Omega}} \pi_{\omega} \eta_{\omega}\right)
+\\+\beta\left(\zeta-\frac{1}{1-\alpha} \sum_{\omega=1}^{N_{\Omega}} \pi_{\omega} \eta_{\omega}\right)
 \end{array}
-\end{equation*} 
-\begin{equation*}
-\begin{array}{c}
-0 \leq P_{t \omega}^{\mathrm{D}} \leq P_{\mathrm{max}}, \forall t, \forall \omega \\
-P_{t \omega}^{\mathrm{O}}=P_{t \omega}^{\mathrm{D}}+P_{t \omega}^{\mathrm{A}}, \forall t, \forall \omega \\
-0 \leq P_{t \omega}^{\mathrm{O}} \leq P_{\max }, \forall t, \forall \omega \\
-P_{t\omega}= P_{t\omega}^S+P_{t\omega}^W, \forall t,\forall \omega \\
-P_{\max}= P^{S}_{\max}+P^{W}_{\max},  \\
-P_{t\omega}^{S} <= P^{S}_{\max}, \forall t, \forall \omega \\
-P_{t\omega}^{W} <= P^{W}_{\max}, \forall t, \forall \omega \\
-\Delta_{t \omega}=d_{t}\left(P_{t \omega}-P_{t \omega}^{\mathrm{O}}\right), \forall t, \forall \omega \\
-\Delta_{t \omega}=\Delta_{t \omega}^{+}-\Delta_{t \omega}^{-}, \forall t, \forall \omega \\
-0 \leq \Delta_{t \omega}^{+} \leq P_{t \omega} d_{t}, \forall t, \forall \omega \\
-0 \leq \Delta_{t \omega}^{-} \leq P^{\max } d_{t}, \forall t, \forall \omega \\
-P_{t \omega}^{\mathrm{D}}-P_{t \omega^{\prime}}^{\mathrm{D}} \leq 0, \forall t, \forall \omega, \omega^{\prime}: O\left(\lambda_{t \omega}^{\mathrm{D}}\right)+1=O\left(\lambda_{t \omega^{\prime}}^{\mathrm{D}}\right) \\
-P_{t \omega}^{\mathrm{D}}=P_{t \omega^{\prime}}^{\mathrm{D}}, \forall t, \forall \omega, \omega^{\prime}: \lambda_{t \omega^{\prime}}^{\mathrm{D}}=\lambda_{t \omega}^{\mathrm{D}} \\
-P_{t \omega}^{\mathrm{A}}=P_{t \omega^{\prime}}^{\mathrm{A}}, \forall t, \forall \omega, \omega^{\prime}:\left(\lambda_{t \omega^{\prime}}^{\mathrm{D}}=\lambda_{t \omega}^{\mathrm{D}} \forall t\right) \\
-\text { and }\left(P_{\tau \omega^{\prime}}=P_{\tau \omega}, \forall \tau=1,2, \ldots, N_{\mathrm{T}_{1}}\right)
-\end{array}
-\end{equation*}
-\begin{equation*}
+\end{equation} 
+\begin{align}
+0 &\leq P_{t \omega}^{\mathrm{D}} \leq P_{\mathrm{max}}, &  &\forall t, \forall \omega \\
+P_{t \omega}^{\mathrm{O}}&=P_{t \omega}^{\mathrm{D}}+P_{t \omega}^{\mathrm{A}},&  &\forall t, \forall \omega \\
+0 &\leq P_{t \omega}^{\mathrm{O}} \leq P_{\max }, & & \forall t, \forall \omega \\
+P_{t\omega}&= P_{t\omega}^S+P_{t\omega}^W, & &\forall t,\forall \omega \\
+P_{\max}&= P^{S}_{\max}+P^{W}_{\max},  \\
+P_{t\omega}^{S} &\leq P^{S}_{\max}, &&\forall t, \forall \omega \\
+P_{t\omega}^{W} &\leq P^{W}_{\max}, &&\forall t, \forall \omega \\
+\nonumber \\
+\Delta_{t \omega}&=d_{t}\left(P_{t \omega}-P_{t \omega}^{\mathrm{O}}\right), &&\forall t, \forall \omega \\
+\Delta_{t \omega}&=\Delta_{t \omega}^{+}-\Delta_{t \omega}^{-}, &&\forall t, \forall \omega \\
+0& \leq \Delta_{t \omega}^{+} \leq P_{t \omega} d_{t}, &&\forall t, \forall \omega \\
+0& \leq \Delta_{t \omega}^{-} \leq P_{\max } d_{t}, &&\forall t, \forall \omega \\
+\nonumber \\
+P_{t \omega}^{\mathrm{D}}&-P_{t \omega^{\prime}}^{\mathrm{D}} \leq 0, && \forall t, \forall \omega, \omega^{\prime}: O\left(\lambda_{t \omega}^{\mathrm{D}}\right)+1=O\left(\lambda_{t \omega^{\prime}}^{\mathrm{D}}\right) \\
+P_{t \omega}^{\mathrm{D}}&=P_{t \omega^{\prime}}^{\mathrm{D}}, && \forall t, \forall \omega, \omega^{\prime}: \lambda_{t \omega^{\prime}}^{\mathrm{D}}=\lambda_{t \omega}^{\mathrm{D}} \\
+P_{t \omega}^{\mathrm{A}}&=P_{t \omega^{\prime}}^{\mathrm{A}},&& \forall t, \forall \omega, \omega^{\prime}:\left(\lambda_{t \omega^{\prime}}^{\mathrm{D}}=\lambda_{t \omega}^{\mathrm{D}} \forall t\right) \nonumber \\
+& &&\text { and } \left(P_{\tau \omega^{\prime}}=P_{\tau \omega}, \forall \tau=1,2, \ldots, N_{\mathrm{T}_{1}}\right) 
+\end{align}
+\begin{equation}
 -\sum_{t=1}^{N_{\mathrm{T}}}\left[\lambda_{t \omega}^{\mathrm{D}} P_{t \omega}^{\mathrm{D}} d_{t}+\lambda_{t \omega}^{\mathrm{A}} P_{t \omega}^{\mathrm{A}} d_{t}+\lambda_{t \omega}^{\mathrm{D}}\left(r_{t \omega}^{+} \Delta_{t \omega}^{+}-r_{t \omega}^{-} \Delta_{t \omega}^{-}\right)\right]+\zeta-\eta_{\omega} \leq 0, \forall \omega
-\end{equation*}
-\begin{equation*}
+\end{equation}
+\begin{equation}
 \eta_{\omega} \geq 0, \quad \forall \omega
-\end{equation*}
+\end{equation}
