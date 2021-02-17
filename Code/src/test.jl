@@ -1,17 +1,13 @@
-using Base.Libc
-i = [1,2,3,4]
-j = [1,2,3,4]
-for item in i
-    if item > 5
-        @goto escape_label
-    end
-end
-for item in j
-    if item > 5
-        @goto escape_label
-    end
-
-end
-println("JAAAAAAAAAA")
-@label escape_label
-    print("NOOO")
+using Pkg
+using JuMP, Plots, IterTools, CPLEX, DataFrames, XLSX
+##Scenario generation
+β = 0.1
+α = 0.95
+##Read data
+scenarios = DataFrame(XLSX.readtable("C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx", "Results")...)
+Ω = size(scenarios, 1);
+P_Max = 80
+P_S_Max = 40 
+P_W_Max = 40
+d_t = 1 
+λ_D = scenarios[["lambda_D"]] 

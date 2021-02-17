@@ -1,17 +1,21 @@
 using Pkg
 using JuMP, Plots, IterTools, CPLEX, DataFrames, XLSX
 ##Scenario generation
-#@@TODo Scenraio generation hier einfügen
 β = 0.1
 α = 0.95
+##Read data
+scenarios = DataFrame(XLSX.readtable("C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx", "Results")...)
+scenarios
 ##set global variables @TODO Wert muss noch gesetzt werden
-Ω = size(5, 1);  ##dummy
-T = 3 ##dummy
-P_Max = 0; ##dummy
-P_S_Max = 0 ##dummy
-d_t = 0 ##dummy
+Ω = size(nrow(scenarios), 1)
+T = 1 
+P_Max = 80
+P_S_Max = 40 
+P_W_Max = 40
+d_t = 1 
 λ_D = [[]] ##dummy
 λ_A = [[]] ##dummy
+
 N_T_one = 20 ##dummy
 ##build model
 opt = with_optimizer(CPLEX.Optimizer)
