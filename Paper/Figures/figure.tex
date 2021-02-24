@@ -1,0 +1,43 @@
+\RequirePackage{luatex85}
+\documentclass[tikz]{standalone}
+% Default preamble
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{polar}
+\usepgfplotslibrary{smithchart}
+\usepgfplotslibrary{statistics}
+\usepgfplotslibrary{dateplot}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[xlabel={$\beta$}, ylabel={Hybrid Revenue vs. Solo Sun/Wind},xmin=0,ymin=0]
+    \addplot[no marks,color=blue]
+        table[row sep={\\}]
+        {
+            \\
+            0.0  5.820766091346741e-11  \\
+            0.05  4626.9875399998855  \\
+            0.1  9196.06560999999  \\
+            0.15  14604.090258750017  \\
+            0.2  20332.552154999867  \\
+            0.25  28137.911444951897  \\
+            0.3  41459.02810951928  \\
+            0.35  50933.56808060099  \\
+            0.4  56305.31846173073  \\
+            0.45  59687.260951298114  \\
+            0.5  63069.203440865356  \\
+            0.55  66451.14593043274  \\
+            0.6  69861.7803830769  \\
+            0.65  73432.06991932698  \\
+            0.7  76988.41572534613  \\
+            0.75  80441.17751951929  \\
+            0.8  83795.64943676928  \\
+            0.85  87150.12135401928  \\
+            0.9  90504.59327126919  \\
+            0.95  93859.06518851925  \\
+            1.0  97213.53710576927  \\
+        }
+        ;
+\end{axis}
+\end{tikzpicture}
+\end{document}

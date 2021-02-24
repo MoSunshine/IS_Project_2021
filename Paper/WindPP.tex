@@ -20,8 +20,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{float}
 \usepackage{subfig}
-
-\usepackage{subfig}
+\usepackage{pgfplots}
 
 \newcommand{\daniel}[1]{\todo[linecolor=blue,backgroundcolor=blue!25]{#1}}
 \newcommand{\david}[1]{\todo[linecolor=orange,backgroundcolor=orange!25]{#1}}
@@ -50,46 +49,21 @@
 
 \maketitle
 
-\begin{abstract}
-  Blalba    \changedByDK{ mit changedby werden Änderungen in eurer Farbe angezeigt. } 
-\end{abstract}
-
- %Section1
+ %Section1 Introduction
  \input{Chapters/introduction.tex}
  
  
- %Section 2 Preliminaries
+ %Section 2 Decision Framework
  \input{Chapters/decisionframework.tex}
 
 
- %Section 3 Theoretical Foundations
- %\input{}
+ %Section 3 Case Study
+ \input{Chapters/casestudy.tex}
 
  
- %Section 4 All Optimum Flow Algorithm 
- %\input{} 
+ %Section 4 Conclusion
+ \input{Chapters/conclusion.tex} 
  
-
- %Section 5 
- %\input{} 
- 
- 
-
- %Section 6
- %\input{}
- 
-
- %\section{Applications}
-
- %kann man auch in den Motivation-Abschnitt reinwurschteln
-
- %\section{Computational Results}
-
- %Aus der MA kopieren
-
- %\section{Conclusion}
-
- %blablablablabla
 
  \bibliographystyle{plain}
  \bibliography{libary}
