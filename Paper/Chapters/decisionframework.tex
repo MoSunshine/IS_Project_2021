@@ -41,7 +41,7 @@ The producer offers an amount $E_{t}^{D}$ of energy at the day-ahead market, whi
 \end{equation*}
 indicating the timespan by $d_{t}$ and the actual resp.\ offered amount of power by $P_{t}$ resp.\ $P_{t}^{D}$.
 Here, the total power produced in time $t$ is given by the sum of the produced solar power $P_t^S$ and wind power $P_t^W$, i.e. 
-$$ P_t = P_t^S + P_t^W.$$ In this decision framework, we assume that the hybrid power producer can only offer a total energy amount and cannot offer price differences between the produced solar and wind energy. 
+$$ P_t = P_t^S + P_t^W.$$ Similary it holds $\overline{P}_\tau = \overline{P}^S_\tau+ \overline{P}^W_\tau$. In this decision framework, we assume that the hybrid power producer can only offer a total energy amount and cannot offer price differences between the produced solar and wind energy. 
 
 
 We define the imbalances price ratios by  
@@ -112,7 +112,7 @@ Combining the explained objective with all these constraints gives the mathemati
 \begin{equation}
 \begin{array}{c}
 \text { Maximize }_{P_{t \omega}^{\mathrm{D}}, \forall t, \forall \omega ; P_{t \omega}^{\mathrm{A}}, \forall t, \forall \omega ; \Delta_{t \omega}^{+}, \forall t, \forall \omega ; \Delta_{t \omega}^{-}, \forall t, \forall \omega ; \eta_{\omega}, \forall \omega ; \zeta} \\
-\sum_{\omega=1}^{N_{\Omega}} \sum_{t=1}^{N_{\mathrm{T}}} \pi_{\omega}\left[\lambda_{t \omega}^{\mathrm{D}} P_{t \omega}^{\mathrm{D}} d_{t}+\lambda_{t \omega}^{\mathrm{A}} P_{t \omega}^{\mathrm{A}} d_{t}+\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{+} \Delta_{t \omega}^{+}-\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{-} \Delta_{t \omega}^{-}\right] 
+(1-\beta)\sum_{\omega=1}^{N_{\Omega}} \sum_{t=1}^{N_{\mathrm{T}}} \pi_{\omega}\left[\lambda_{t \omega}^{\mathrm{D}} P_{t \omega}^{\mathrm{D}} d_{t}+\lambda_{t \omega}^{\mathrm{A}} P_{t \omega}^{\mathrm{A}} d_{t}+\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{+} \Delta_{t \omega}^{+}-\lambda_{t \omega}^{\mathrm{D}} r_{t \omega}^{-} \Delta_{t \omega}^{-}\right] 
 \\+\beta\left(\zeta-\frac{1}{1-\alpha} \sum_{\omega=1}^{N_{\Omega}} \pi_{\omega} \eta_{\omega}\right)
 \end{array}
 \end{equation} 
