@@ -28,7 +28,7 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     end
     r_Plus = scenarios[!,"r_plus"]
     r_Minus = scenarios[!,"r_minus"]
-    O_D = scenarios[!,"O_D"]
+    O_D = scenarios[!,"O_Rank"]
     pi = 1/Ω * ones(Ω);
     ##Create optimazation model
     opt = with_optimizer(CPLEX.Optimizer)
@@ -95,8 +95,10 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     ##Optimazie model
     optimize!(pool)
     termination_status(pool)
+    println(value.(P_D))
     return  objective_value(pool)
 end
+
 println(calc_optimazation(0.95,0.1,"C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx",40,40))
 println(calc_optimazation(0.95,0.1,"C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx",0,40))
 println(calc_optimazation(0.95,0.1,"C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx",40,0))

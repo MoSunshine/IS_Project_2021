@@ -1,6 +1,6 @@
 using Pkg
-using JuMP, Plots, IterTools, CPLEX, DataFrames, XLSX
-##Function to optimize th hybrid model 
+using JuMP, Plots, IterTools, CPLEX, DataFrames, XLSX, CSV, Statistics, PGFPlotsX
+##Function to optimize the hybrid model 
 ##@param α - Alpha value for the model
 ##@param β - Beta value for the model
 ##@param scenario_path - Path to the Excle File with the scenarios
@@ -9,15 +9,16 @@ using JuMP, Plots, IterTools, CPLEX, DataFrames, XLSX
 ##@return Revenue of optimized model
 function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     ##Read data
-    scenarios = DataFrame(XLSX.readtable(scenario_path, "Results")...)
-    ##Definition and declartion of variables
+    scenarios = CSV.read(scenario_path,DataFrame,delim=",")
+    ##Definition and declaration of variables
     Ω = size(scenarios, 1);
     P_Max = P_S_Max + P_W_Max
     d_t_v = 1 
     T = 1
-    N_T_one = 1
+    N_T_one = T
     λ_D = scenarios[!,"lambda_D"]
     λ_A = scenarios[!,"lambda_A"]
+    Pi = scenarios[!,"Pi"]
     if P_S_Max != 0
         P_S = scenarios[!,"P_t_S"]
         P_S_τ = scenarios[!,"P_tau_S"]
@@ -34,7 +35,7 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     end
     r_Plus = scenarios[!,"r_plus"]
     r_Minus = scenarios[!,"r_minus"]
-    O_D = scenarios[!,"O_D"]
+    O_D = scenarios[!,"O_Rank"]
     pi = 1/Ω * ones(Ω);
     ##Create optimazation model
     opt = with_optimizer(CPLEX.Optimizer)
@@ -42,14 +43,14 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     set_silent(pool)
     ##Add variables to model
     @variable(pool,P_D[1:Ω,1:T]>=0)
-    @variable(pool,P_A[1:Ω,1:T]>=0)
+    @variable(pool,P_A[1:Ω,1:T])
     @variable(pool,Δ_Plus[1:Ω,1:T]>=0)
     @variable(pool,Δ_Minus[1:Ω,1:T]>=0)
     @variable(pool,η[1:Ω]>=0)
     @variable(pool,ζ)
     @variable(pool,P[1:Ω,1:T]>=0)
-    @variable(pool,Pτ[1:Ω,1:T]>=0)
-    @variable(pool,Δ[1:Ω,1:T]>=0)
+    @variable(pool,Pτ[1:Ω,1:N_T_one]>=0)
+    @variable(pool,Δ[1:Ω,1:T])
     @variable(pool,P_O[1:Ω,1:T]>=0)
     ##Add expressions
     #(1)
@@ -61,9 +62,9 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
             λ_D[ω,t]*Δ_Minus[ω,t]*r_Minus[ω,t]
             for t in 1:T)
     )
-    @expression(pool, CVaR, (ζ - 1/(1-α) * sum(pi[ω]*η[ω] for ω in 1:Ω)));
+    @expression(pool, CVaR, (ζ - 1/(1-α) * sum(Pi[ω]*η[ω] for ω in 1:Ω)));
     #simplified
-    @objective(pool, Max, sum(R[ω] for ω in 1:Ω) + β * CVaR);
+    @objective(pool, Max, (1-β)*sum(Pi[ω]*R[ω] for ω in 1:Ω) + β * CVaR);
     ##Add constrains to model
     #(2)
     @constraint(pool, Max_P_D[t in 1:T, ω in 1:Ω], 
@@ -80,7 +81,7 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     #(6)
     @constraint(pool,Value_P_max,P_Max == P_S_Max + P_W_Max)
     #(7)
-    @constraint(pool,Value_Δ_one[t in 1:T, ω in 1:Ω],Δ[ω,t]==d_t_v*(P[ω,t]-P_D[ω,t]))
+    @constraint(pool,Value_Δ_one[t in 1:T, ω in 1:Ω],Δ[ω,t]==d_t_v*(P[ω,t]-P_O[ω,t]))
     #(8)
     @constraint(pool,Value_Δ_two[t in 1:T, ω in 1:Ω],Δ[ω,t]== Δ_Plus[ω,t]-Δ_Minus[ω,t])
     #(9)
@@ -101,38 +102,67 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
         end
     end
     #(13)
-    for (t,ω,ωω) in product(1:T,1:Ω,1:Ω)
-        status = false
-        for (t_one) in (1:T) 
-            if λ_D[ωω,t_one]!=λ_D[ω,t_one]
-                status = true
-                break
-            end
-        end
-       
-        for t_two in (1:N_T_one)
-                if Pτ[ωω,t_two] != Pτ[ω,t_two]
+    NDDA = Dict()
+    for (t,ω) in product(1:T,1:Ω)
+        for ωω in 1:Ω
+            status = false
+            for (t_one) in (1:T) 
+                if λ_D[ωω,t_one]!=λ_D[ω,t_one]
                     status = true
                     break
                 end
             end
-        if status == false
-            @constraint(pool,P_A[ω,t] == P_A[ωω,t])
+        
+            for t_two in (1:N_T_one)
+                    if P_S_τ[ωω,t_two]+ P_w_τ[ωω,t_two] != P_S_τ[ω,t_two]+P_w_τ[ω,t_two]
+                        status = true
+                        break
+                    end
+            end
+            if status == false
+                NDDA[(t,ω,ωω)] = @constraint(pool,P_A[ω,t] == P_A[ωω,t])
+            end
         end
     end
     #(14)
     @constraint(pool,Not_neg[ω in 1:Ω],-sum(
         λ_D[ω,t]*P_D[ω,t]*d_t_v+
         λ_A[ω,t]*P_A[ω,t]*d_t_v +
-        λ_D[ω,t]*(Δ_Plus[ω,t]+r_Plus[ω,t]-Δ_Minus[ω,t]+r_Minus[ω,t])
+        λ_D[ω,t]*(Δ_Plus[ω,t]*r_Plus[ω,t]-Δ_Minus[ω,t]*r_Minus[ω,t])
         for t in 1:T)+ζ-η[ω]<=0)
     #(15)
     @constraint(pool,Rest_η[ω in 1:Ω],η[ω]>=0)
     ##Optimazie model
     optimize!(pool)
     termination_status(pool)
-    return  objective_value(pool)
+    #Return revenue
+    return objective_value(pool)
 end
-println(calc_optimazation(0.95,0.1,"C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx",40,40))
-println(calc_optimazation(0.95,0.1,"C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx",0,40))
-println(calc_optimazation(0.95,0.1,"C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\Dummy Scenarios.xlsx",40,0))
+##Main part
+##System path to scenario csv-file and declartion of variables
+p = "C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\outputfile E_A_negativ.csv"
+α = 0.95
+list=[]
+beta = []
+##iteration over all β between 0.0 and 1.0 in 0.05 steps
+for β in collect(0.0:0.05:1) 
+    rev = calc_optimazation(α,β,p_n,40000,40000)-calc_optimazation(α,β,p_n,0,40000)-calc_optimazation(α,β,p_n,40000,0)
+    push!(list,rev)
+    push!(beta,β)
+end
+println("****Finished calculation start printing results****")
+pgfplotsx()
+#output = plot(beta, list, title = "Risk aversion Revenue", ylabel= "Hybrid Revenue vs. Solo Sun/Wind", xlabel= "beta")
+figure = @pgf Axis(    
+        {
+            xlabel = "beta",
+            ylabel = "Hybrid Revenue vs. Solo Sun/Wind"
+        }
+    ,
+    Plot(
+        {
+            no_marks
+        },
+        Table(beta,list)))
+pgfsave("figure.tex",figure)
+println("****Finsihed printing****")
