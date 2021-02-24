@@ -9,9 +9,8 @@ This setting of a hybrid wind-solar power producer
 	overcomes the strong fluctuation in production throughout the year due to the strong over year anti-correlation of wind speed and solar irradiance, see figure \ref{fig:overyear}. In addition to
 	the anti-correlation between wind speed and solar irradiance over the whole year, there is also an anti-correlation between both over the day, even if it is much smaller. We will exploit this anti-correlation over the day and include it into the forecast
 	for wind and solar power production. Therefore, we will apply the forecast for wind power production for a time $t$ in dependence on the previous times' wind speeds and previous times' solar irradiance to improve the forecast precision possibly.
+	\laura{Brauchen wir (a) und (b) und warum ist die y-Achsen Beschriftung nur rechts?}
 	
-	To solve the  decision problem, the hybrid energy producer has to face, we will solve a scenario-based multi-stage optimization problem. For generating wind and solar power scenarios, we will use a time-series-based approach.  
-
 \begin{figure}[h!]
 	\centering
 	
@@ -29,3 +28,4 @@ This setting of a hybrid wind-solar power producer
 		\caption{The average annual profiles of solar irradiance and wind speed \cite{W11}}\label{fig:overyear}
 	\end{minipage}	
 \end{figure}
+To solve the  decision problem, the hybrid energy producer has to face, we will solve a scenario-based multi-stage optimization problem. For generating wind and solar power scenarios, we will use a time-series-based approach. With the generated data, we consider two cases. First, we look at a situation where we do not have an adjustment market. Second, we add an adjustment market to our situation. We compare the revenue of a hybrid producer with the sum of the revenues of a solar and a wind power producer. Our results show that the more risk averse a producer is, the more profitable it is to produce in a hybrid scheme. This effect can be observed in both market situations. We conclude that this profitability stems from the anit-correlation of the two weather conditions as a decrease in availability of solar irradiance is most likely to be compensated by an increase of wind speed and vice versa. This gives more planning security and therefore a higher expected profit. Moreover, the decrease in planning insecurity also explains why more risk averse producers profit more from a hybrid production scheme.  
