@@ -151,8 +151,8 @@ for β in collect(0.0:0.05:1)
     push!(beta,β)
 end
 println("****Finished calculation start printing results****")
+##printing results
 pgfplotsx()
-#output = plot(beta, list, title = "Risk aversion Revenue", ylabel= "Hybrid Revenue vs. Solo Sun/Wind", xlabel= "beta")
 figure = @pgf Axis(    
         {
             xlabel = "beta",
