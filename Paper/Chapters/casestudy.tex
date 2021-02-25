@@ -1,7 +1,22 @@
 \section{Case Study}
 
 \subsection{Scenario Generation}
+As already mentioned in subsection \ref{sub:Uncertainty_Characterization} our model has to account for variations with respect to solar and wind power generation in between the clearance of the day-ahead and adjustment market $\overline{P}^{W}$,$\overline{P}^{S}$ and during the market horizon ${P}^{W}$, ${P}^{S}$ as well as the prices at the day-ahead and adjustment market $\lambda^D$, $\lambda^A$ and the imbalance price ratios $r^+$,$r^-$. Market prices are assumed to be independent of power generation. However, interdependencies within the sets of $\left\lbrace\overline{P}^{W},{P}^{W},\overline{P}^{S},{P}^{S}\right\rbrace$ and $\left\lbrace\lambda^D,\lambda^A,r^+,r^-\right\rbrace$ respectively can not be neglected. 
 
+
+Without loss of generality, we limit our analysis to a single time period 12:00 PM - 13:00 PM. Furthermore, for the sake of simplicity, we utilize the market scenario of page 220 \cite{Conejo10}. %but extend it by a second version where $E\left[\lambda^D-\lambda^A\right]<0$
+With respect to power generation our goal is to model an even split between solar and wind energy on an average day. To do so, we analyze historical data from the 50Hertz control area in Germany (https://data.open-power-system-data.org/time\char`_series/). The data set supplies hourly power generation from 01. January 2015 to 01. October 2020. As mentioned before, solar and wind power generation is strongly dependent on the weather and hence exibits strong seasonal effects. While such seasonal effects have interesting economical implications on their own, they should not drive the variance of power generation in our scenarios. In other words, making use of scenarios that best represent the market for a variety of seasons would exaggerate the spread in power generation and hence not represent the energy market at any day throughout the analyzed period. Furthermore, in the data set, the average power generation from wind is 216\% higher than the solar power generation. To mitigate the skewness towards wind energy and the seasonal effects, we first normalize the average power generation of both supply streams to $5.000 MW$. Second, we subtract the 30-day moving average and reapply the overall average $\left(\sim 5.000 MW\right)$. To account for the negative correlation between solar and wind power generation, we fit both supply streams to ARMA models of the form $y_t = \mu + \phi \left(y_{t-1}-\mu\right)+\varepsilon_t + \theta\varepsilon_{t-1}$ and compute the variance-covariance Matrix $G$ of $\varepsilon^S$ and $\varepsilon^W$, where $\varepsilon^S$ $\left(\varepsilon^W\right)$ refers to the residual vector of the solar (wind) energy ARMA model. The stochastic processes 
+for solar and wind energy supply can hence be described as follows:
+
+\begin{align}
+\overline{P}^{W}=& \mu^W+\epsilon_1^W\\
+\overline{P}^{S}=& \mu^S+\epsilon_1^S\\
+{P}^{S}=&\mu^S + \phi^S \left(\overline{P}^{S}-\mu^S\right)+\epsilon^S_2 + \theta^S\epsilon^S_1\\
+{P}^{W}=&\mu^W + \phi^W \left(\overline{P}^{W}-\mu^W\right)+\epsilon^W_2 + \theta^W\epsilon^W_1.
+\end{align}
+ 
+
+Note again, that $\varepsilon^S$ and $\varepsilon^W$ refer to the residual vectors from the fitted ARMA models while $\left(\epsilon_1^S,\epsilon_1^W\right)$ and $\left(\epsilon_2^S,\epsilon_2^W\right)$ correspond to two independent realizations of the same random variable distributed according to a multivariate normal distribution with variance-covariance matrix $G$ and mean $\overline{\varepsilon}^S$, $\overline{\varepsilon}^W$. Here $\overline{\varepsilon}^S$ $\left(\overline{\varepsilon}^W\right)$ refers to the average of the residual vector $\varepsilon^S$ $\left(\varepsilon^W\right)$. The parameters $\phi^S$, $\phi^W$, $\theta^S$, $\theta^W$ refer to the parameter results of the fitted ARMA models and $\mu^S$ $\left(\mu^W\right)$ refers to the mean of the normalized historical data set for solar (wind) energy. For $\left(\epsilon_1^S,\epsilon_1^W\right)$ and $\left(\epsilon_2^S,\epsilon_2^W\right)$ respectively we generate $1.000$ realizations and cluster down to 4 branches based on euclidean distance, resulting in a total of 16 scenarios for power generation. Matching each power generation scenario with each of the eight price scenarios we get a total of 128 scenarios.
 
 
 
