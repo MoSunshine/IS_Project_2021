@@ -2,9 +2,9 @@
 In the introduction we mentioned the three major trading places for energy, namely the day-ahead, the adjustment and the balancing market. All three of these are cleared in a single auction process, however at different times of the day. 
 
 \begin{list}{$\cdot$}{}
-	\item The day-ahead market is cleared at a given time period $t^D$ of day $d-1$.
-	\item The adjustment market is cleared at time period $t^{A}$ of day $d-1$. Please note that time period $t^{A}$ takes place \textit{after} time period $t^{D}$.
-	\item The balancing market ensures the real-time balancing between the generation of and demand for energy by balancing out differences between the real-time operation and the last energy program settled on in the previous markets. Therefore, it is cleared just before each time period of day $d$. 
+	\item The day-ahead market for day $d$ is cleared at a given time period $t^D$ of day $d-1$ with day-ahead price $\lambda_t^D$.
+	\item The adjustment market is cleared at time period $t^{A}$ of day $d-1$ with adjustment market price $\lambda_t^A$. Please note that time period $t^{A}$ takes place \textit{after} time period $t^{D}$.
+	\item The balancing market ensures the real-time balancing of the generation of and demand for energy by balancing out differences between the real-time operation and the last energy program settled on in the previous markets. Therefore, it is cleared just before each time period of day $d$. 
 \end{list}
 There are three major decisions the hybrid energy producer has to face. First, he has to submit an offering curve to the day-ahead market for day $d$. The day-ahead market for day $d$  is closed at 10 am of day $d-1$. Then, he has to modify the submitted energy offers in the adjustment market depending on how the wind and solar power forecast updates change. The adjustment market for day $d$  is closed at 11.45 pm of day $d-1$. Finally, he needs to balance out his energy deviations by trading in the balancing market for each time period of day $d$. From now on, we assume hourly periods. This means that the balancing market for the time period 6.00-7.00 am of day $d$ closes at 5.50 am of day $d$. 
 \\
@@ -12,13 +12,13 @@ There are three major decisions the hybrid energy producer has to face. First, h
 The producer faces several factors that influence his short-term decision making process. It is inevitable to account for the imbalance costs, i.e.\ the costs entailed by deviations in the energy production. Apart from that, he is influenced by all sorts of mechanisms through which energy deviations are priced in the balancing market and the beneficial impact of an adjustment market clearing after the clearance of the day-ahead market. Energy deviations are not unusual for producers of non-dispatchable energy sources as windspeed and solar irradiance exert a high variability. As soon as a producer deviates from his agreed-upon amount of energy he has traded on the market before, he has to sell its surplus or buy his generation deficit at an \textit{imbalance price}. We denote the price for positive energy deviations, i.e.\ higher production than planned, by $\lambda_{t}^{+}$, and the price for negative energy deviations by $\lambda_{t}^{-}$. 
 We denote the price for positive energy deviations, i.e.\ higher production than planned, by $\lambda_{t}^{+}$, and the price for negative energy deviations by $\lambda_{t}^{-}$.
 \\ \\
-Let $\delta_t$ be the system imbalance for time $t$, that means if $\delta_t<0$ there is an negative system imbalance and otherwise a generation excess or balance ($\delta_t=0$) in the power system. Then $\lambda_t^+$ and $\lambda_t^-$ are given by 
+Let $\delta_t$ be the system imbalance for time $t$, that means if $\delta_t<0$ there is an negative system imbalance and otherwise a generation excess, or balance ($\delta_t=0$) in the power system. Then $\lambda_t^+$ and $\lambda_t^-$ are given by 
 \begin{figure}[h!]
 	\begin{minipage}{0.5\textwidth}
 		\begin{equation*}
 			\lambda_{t}^+=\begin{cases}
 				\lambda_{t}^D &\mathrm{\; if \;} \delta_{t}<0
-				\\ \min(\lambda_t^D,\lambda_t^{DN}) &\mathrm{\; if \;} \delta_{t}\ge 0.
+				\\ \min(\lambda_t^D,\lambda_t^{DN}) &\mathrm{\; if \;} \delta_{t}\ge 0
 			\end{cases}
 		\end{equation*}
 	\end{minipage}
@@ -27,21 +27,21 @@ Let $\delta_t$ be the system imbalance for time $t$, that means if $\delta_t<0$ 
 		\begin{equation*}
 			\lambda_t^-=\begin{cases}
 				\max(\lambda_t^D,\lambda_t^{UP}) &\mathrm{\; if \;} \delta_{t}<0
-				\\ \lambda_{t}^{D} &\mathrm{\; if \;} \delta_{t}\ge 0.
+				\\ \lambda_{t}^{D} &\mathrm{\; if \;} \delta_{t}\ge 0,
 			\end{cases}
 		\end{equation*}
 	\end{minipage}
 \end{figure}
 
-where we write $\lambda_{t}^{D}$ for the day-ahead market price, $\lambda_{t}^{UP}$ for the price of the upward energy that may needs to be added and $\lambda_{t}^{DN}$ for the price of the downward energy that may have to be discharged from the system.
+where we write $\lambda_{t}^{D}$ for the day-ahead market price, $\lambda_{t}^{UP}$ for the price of the upward energy that may need to be added and $\lambda_{t}^{DN}$ for the price of the downward energy that may have to be discharged from the system.
 
-The producer offers an amount $E_{t}^{D}$ of energy at the day-ahead market, while his plant produces an amount $E_{t}$, which is most probably not equal to the amount offered at the day-ahead market. We denote the total deviation by 
+The producer offers an amount $E_{t}^{D}$ of energy on the day-ahead market, while his plant produces an amount $E_{t}$, which is most probably not equal to the amount offered on the day-ahead market. We denote the total deviation by 
 \begin{equation*}
 \Delta_{t}=E_{t}-E_{t}^{D}=d_{t}\left(P_{t}-P_{t}^{D}\right)
 \end{equation*}
 indicating the timespan by $d_{t}$ and the actual resp.\ offered amount of power by $P_{t}$ resp.\ $P_{t}^{D}$.
-Here, the total power produced in time $t$ is given by the sum of the produced solar power $P_t^S$ and wind power $P_t^W$, i.e. 
-$$ P_t = P_t^S + P_t^W.$$ Similary it holds $\overline{P}_\tau = \overline{P}^S_\tau+ \overline{P}^W_\tau$. In this decision framework, we assume that the hybrid power producer can only offer a total energy amount and cannot offer price differences between the produced solar and wind energy. 
+Here, the total power produced in time period $t$ is given by the sum of the produced solar power $P_t^S$ and wind power $P_t^W$, i.e. 
+$$ P_t = P_t^S + P_t^W.$$ Similarly, we have $\overline{P}_\tau = \overline{P}^S_\tau+ \overline{P}^W_\tau$. In this decision framework, we assume that the hybrid power producer can only offer a total energy amount for the same price. 
 
 
 We define the imbalances price ratios by  
@@ -49,7 +49,7 @@ We define the imbalances price ratios by
 r_{t}^{+}= \frac{\lambda_{t}^{+}}{\lambda_{t}^{D}} \quad \mathrm{and} \quad r_{t}^{-}=\frac{\lambda_{t}^{-}}{\lambda_{t}^{D}}.
 \end{equation*}
 
-Given these ratios, we can define the imbalance cost $C_t$ for time $t$ as
+Given these ratios, we can define the imbalance cost $C_t$ for time period $t$ as
 \begin{equation*}
 C_{t}=\begin{cases}
 \lambda_{t}^D\left(1-r_{t}^{+}\right)\Delta_{t} &\mathrm{\; if \;} \Delta_{t}\ge 0
@@ -62,19 +62,19 @@ Then we can formulate the revenue $R_t$ in terms of the maximum level of revenue
 R_{t}=\lambda_{t}^{D}E_{t}-C_{t}.
 \end{equation*}
 
-Given this formulatuion, it is easy to deduce that maximising the revenue is equivalent to minimising the imbalance costs.
+Given this formulatuion, it is easy to deduce that maximising the revenue is equivalent to minimising the imbalance costs. In a situation with adjustment market, we have to add the revenue incurred by trading on the adjustment market.
 
 \subsection{Uncertainty Characterization}\label{sub:Uncertainty_Characterization}
 
-We face four major sources of uncertainty. The most essential source of uncertainty is the weather, which influences both the wind and solar power generation. Apart from that, we have uncertainty concerning the market characteristics like day-ahead market price, adjustment market price and the prices for imbalance.
+We identify four major sources of uncertainty. The most essential source of uncertainty is the weather, which influences both the wind and solar power generation. Apart from that, we have uncertainty concerning the market characteristics like day-ahead market price, adjustment market price and the prices for imbalance.
 
-To deal with these uncertainties in order to solve the decision problem the hybrid power producer has to solve, we consider a scenario-based multi-stage optimization problem. 
+To deal with these uncertainties in order to solve the decision problem the hybrid power producer faces, we consider a scenario-based multi-stage optimisation problem. 
 For this purpose, we consider $N_{T}$ periods of the market horizon, $N_{D}$ scenarios for day-ahead prices, and $N_{A}$ scenarios for the adjustment market prices. Thus, we have several realisations of day-ahead and adjustment market prices, which we summarise in
 \begin{align*}
 	\lambda^{D}=\left\{\lambda_{t}^{D} \quad \lvert \quad t \in \left\{1, .., N_{T}\right\}\right\}
 	\\ \lambda^{A}=\left\{\lambda_{t}^{A}\quad \lvert \quad t \in \left\{1, .., N_{A}\right\}\right\}.
 \end{align*}
-We also have $N_P$ scenarios for wind and solar power production, which splits up in $N_{P_1}$ scenarios for the power production during the time interval between the closures of the day-ahead and adjustment market and $N_{P_2}$ scenarios for the wind and solar power production for the time intevall during the market horizon. Similarily to the realisations of day-ahead and marekt price we summmarize the different realisations for wind and solar power production with 
+We also have $N_P$ scenarios for wind and solar power production, which splits up in $N_{P_1}$ scenarios for the power production during the time interval between the closures of the day-ahead and adjustment market and $N_{P_2}$ scenarios for the wind and solar power production for the time interval during the market horizon. Similarly to the realisations of day-ahead and market price we summmarise the different realisations for wind and solar power production in 
 \begin{align*}
 \overline{P}^{W} &=\left\{\overline{P}_{\tau}^{W} \quad \lvert \quad \tau \in \left\{1, \dots, N_{T_1}\right\}\right\} \\
 \overline{P}^S &=\left\{\overline{P}_{\tau}^{S} \quad \lvert \quad \tau \in \left\{1, \dots, N_{T_1}\right\}\right\} \\
@@ -96,19 +96,17 @@ We set up a maximisation model for the hybrid wind-solar power producer. As alre
 \end{equation*}
 which we also have to include as one of the constraints. Thus, we wish to maximise the profit given by the sum of the revenues on the respective markets and possible imbalance costs. As we also aspire to consider the risk aversion of the producer, we include a conditional-value-at-risk term. For this, we need a weighting factor, denoted by $\beta$, the confidence level $\alpha$, an auxiliary variable $\zeta$ and the continuous non-negative variable $\eta$, which is defined as the maximum of the auxiliary variable minus the revenue. We also have to include this definition as a constraint in our maximisation model. 
 
-The first block of constraints restricts the amount of energy we offer on both markets. First, we cannot offer more energy on the day-ahead market than the maximum amount of energy we can produce in both plants, denoted by $P_{\max}$. In each scenario and for every timeperiod, the total amount of energy offered, $P^{O}_{t \omega}$, comprises the amount of energy we offer on the day-ahead and the adjustment market and can, again, not exceed the maximum amount of energy we can produce. The latter comprises the maximum amount of solar energy we can produce, expressed by the parameter $P_{\max}^{S}$, and the maximum amount of wind energy we can produce, denoted by $P_{\max}^{W}$. Moreover, in any scenario, each source's amount of energy cannot exceed the respective maximum production amount. 
+The first block of constraints restricts the amount of energy we can offer on both markets. First, we cannot offer more energy on the day-ahead market than the maximum amount of energy we can produce in both plants, denoted by $P_{\max}$. In each scenario and for every timeperiod, the total amount of energy offered, $P^{O}_{t \omega}$, comprises of the amount of energy we offer on the day-ahead and the adjustment market and can, again, not exceed the maximum amount of energy we can produce. The latter comprises of the maximum amount of solar energy we can produce, expressed by the parameter $P_{\max}^{S}$, and the maximum amount of wind energy we can produce, denoted by $P_{\max}^{W}$. Moreover, in any scenario, each source's amount of energy cannot exceed the respective maximum production amount. 
 
 The second block of constraints considers possible deviations. First, we define the total deviation as the difference between the actually produced and the initially offered amount of energy, multiplied by the duration of the time period. Apart from that, we split up the total deviation in terms of the positive, i.e.\ excess energy, and negative, i.e.\ energy deficit, deviation. On the one hand, the positive deviation cannot exceed what was actually produced in that scenario. This would happen if the producer didn't offer anything on either market, but then produced something non-zero. On the other hand, the negative deviation cannot be larger than $P_{\max}$, in which case the producer would offer all its capacity on the market, but actually produces nothing. 
 
-The offering curve conditions induce the third block of constraints. The first constraint ensures that offering curves are non-decreasing, which is a realistic and valid assumption to make on the energy market. Herefore we define the matrix $O$ to sort the day-ahead prices associated with each period in an increasinglx manner for each scenario $\omega .$ Therefore, element $O(t, \omega)$ represents the position of the day-ahead price $\lambda_{t \omega}^{\mathrm{D}}$ over all scenarios $\omega \in \Omega$. Here identical day-ahead prices are associated with equal values in the matrix $O^{\mathrm{D}},$ i.e., if $\lambda_{t \omega}^{\mathrm{D}}=\lambda_{t \omega^{\prime}}^{\mathrm{D}}$ then $O^{\mathrm{D}}(t, \omega)=O^{\mathrm{D}}\left(t, \omega^{\prime}\right).$
-
-Moreover, the producer can only submit one offering curve no matter which imbalance price realises. We call this assumption the "non-anticipativity" constraint. This condition has to hold for the offering curve on the day-ahead market and the adjustment market. However, the amount of energy offered on the adjustment market might change with the day-ahead market price realisation and the wind and solar power forecasts, which are more precise the closer you get to the point of energy delivery. Conejo et al.\ refer to this as the "certainty gain effect", cf. \cite{Conejo10}. When formulating the mathematical model, one has to differ between the
+The offering curve conditions induce the third block of constraints. The first constraint ensures that offering curves are non-decreasing, which is a realistic and valid assumption to make on the energy market. Herefore, we define the matrix $O$ to sort the day-ahead prices associated to each period in an increasingly manner for each scenario $\omega .$ The element $O(t, \omega)$ represents the position of the day-ahead price $\lambda_{t \omega}^{\mathrm{D}}$ over all scenarios $\omega \in \Omega$. Here identical day-ahead prices are associated with equal values in the matrix $O^{\mathrm{D}},$ i.e., if $\lambda_{t \omega}^{\mathrm{D}}=\lambda_{t \omega^{\prime}}^{\mathrm{D}}$ then $O^{\mathrm{D}}(t, \omega)=O^{\mathrm{D}}\left(t, \omega^{\prime}\right).$ Moreover, the producer can only submit one offering curve no matter which imbalance price realises. We call this assumption the "non-anticipativity" constraint. This condition has to hold for the offering curve on the day-ahead market and the adjustment market. However, the amount of energy offered on the adjustment market might change with the day-ahead market price realisation and the wind and solar power forecasts, which are more precise the closer you get to the point of energy delivery. Conejo et al.\ refer to this as the "certainty gain effect", cf. \cite{Conejo10}. When formulating the mathematical model, one has to differ between the
 time periods between the closure of the day-ahead market and the adjustment market and
 the time periods between the adjustment market's closure and delivery.  This is only of relevance for the constraints concerning the non-anticipativity constraints. Therefore, we use the $t$ as the overall timeperiod index and $\tau$ for the timeperiods between the closure of the day-ahead and the adjustment market.
 
-The final block of constraints evolves around the conditional-value-at-risk measures, which are introduced in a more detailed way in Chapter 4 of \cite{Conejo10}.
+The final block of constraints evolves around the conditional-value-at-risk measures, which are introduced in a more detailed manner in Chapter 4 of \cite{Conejo10}.
 
-Combining the explained objective with all these constraints gives the mathematical model below, which we shall translate into Julia as found in the provided notebook.  
+Combining the explained objective with all these constraints gives the mathematical model below, which we shall translate into Julia as can be found in the provided notebook.  
 \begin{equation}
 \begin{array}{c}
 \text { Maximize }_{P_{t \omega}^{\mathrm{D}}, \forall t, \forall \omega ; P_{t \omega}^{\mathrm{A}}, \forall t, \forall \omega ; \Delta_{t \omega}^{+}, \forall t, \forall \omega ; \Delta_{t \omega}^{-}, \forall t, \forall \omega ; \eta_{\omega}, \forall \omega ; \zeta} \\
