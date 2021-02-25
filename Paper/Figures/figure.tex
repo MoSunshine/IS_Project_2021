@@ -2,6 +2,7 @@
 \documentclass[tikz]{standalone}
 % Default preamble
 \usepackage{pgfplots}
+\usepackage[official]{eurosym}
 \pgfplotsset{compat=newest}
 \usepgfplotslibrary{groupplots}
 \usepgfplotslibrary{polar}
@@ -10,7 +11,7 @@
 \usepgfplotslibrary{dateplot}
 \begin{document}
 \begin{tikzpicture}
-\begin{axis}[xlabel={$\beta$}, ylabel={Hybrid Revenue vs. Solo Sun/Wind},xmin=0,ymin=0]
+\begin{axis}[xlabel={$\beta$}, ylabel={\euro}, xmin={0}, ymin={0}]
     \addplot[no marks,color=blue]
         table[row sep={\\}]
         {
