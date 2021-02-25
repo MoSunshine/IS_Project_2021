@@ -3,17 +3,17 @@ using JuMP, Plots, IterTools, CPLEX, DataFrames, XLSX, CSV, Statistics, PGFPlots
 ##Function to optimize the hybrid model 
 ##@param α - Alpha value for the model
 ##@param β - Beta value for the model
-##@param scenario_path - Path to the Excle File with the scenarios
+##@param scenario_path - Path to the Excle file with the scenarios
 ##@param P_S_Max - Production limit of solar power
 ##@param P_W_Max - Production limit of wind power
 ##@return Revenue of optimized model
-function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
+function calc_optimization(α,β,scenario_path,P_S_Max,P_W_Max)
     ##Read data
     scenarios = CSV.read(scenario_path,DataFrame,delim=",")
     ##Definition and declaration of variables
     Ω = size(scenarios, 1);
     P_Max = P_S_Max + P_W_Max
-    d_t_v = 1 
+    D_T_V = 1 
     T = 1
     N_T_one = T
     λ_D = scenarios[!,"lambda_D"]
@@ -28,10 +28,10 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     end
     if P_W_Max != 0
         P_W = scenarios[!,"P_t_W"]
-        P_w_τ = scenarios[!,"P_tau_W"]
+        P_W_τ = scenarios[!,"P_tau_W"]
     else 
         P_W = scenarios[!,"Zeros"]
-        P_w_τ = scenarios[!,"Zeros"]
+        P_W_τ = scenarios[!,"Zeros"]
     end
     r_Plus = scenarios[!,"r_plus"]
     r_Minus = scenarios[!,"r_minus"]
@@ -56,8 +56,8 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     #(1)
     @expression(pool, R[ω in 1:Ω],    
             sum(
-            λ_D[ω,t]*P_D[ω,t]*d_t_v+
-            λ_A[ω,t]*P_A[ω,t]*d_t_v +
+            λ_D[ω,t]*P_D[ω,t]*D_T_V+
+            λ_A[ω,t]*P_A[ω,t]*D_T_V +
             λ_D[ω,t]*Δ_Plus[ω,t]*r_Plus[ω,t]-
             λ_D[ω,t]*Δ_Minus[ω,t]*r_Minus[ω,t]
             for t in 1:T)
@@ -77,17 +77,17 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     #(5)
     @constraint(pool,Value_P_t_w[t in 1:T, ω in 1:Ω],P[ω,t]==P_S[ω,t]+P_W[ω,t])
     #(5.1)
-    @constraint(pool,Value_P_τ_w[t in 1:T, ω in 1:Ω],Pτ[ω,t]==P_S_τ[ω,t]+P_w_τ[ω,t])
+    @constraint(pool,Value_P_τ_w[t in 1:T, ω in 1:Ω],Pτ[ω,t]==P_S_τ[ω,t]+P_W_τ[ω,t])
     #(6)
     @constraint(pool,Value_P_max,P_Max == P_S_Max + P_W_Max)
     #(7)
-    @constraint(pool,Value_Δ_one[t in 1:T, ω in 1:Ω],Δ[ω,t]==d_t_v*(P[ω,t]-P_O[ω,t]))
+    @constraint(pool,Value_Δ_one[t in 1:T, ω in 1:Ω],Δ[ω,t]==D_T_V*(P[ω,t]-P_O[ω,t]))
     #(8)
     @constraint(pool,Value_Δ_two[t in 1:T, ω in 1:Ω],Δ[ω,t]== Δ_Plus[ω,t]-Δ_Minus[ω,t])
     #(9)
-    @constraint(pool,Rest_Δ_Plus[t in 1:T, ω in 1:Ω], Δ_Plus[ω,t]<= P[ω,t]*d_t_v) 
+    @constraint(pool,Rest_Δ_Plus[t in 1:T, ω in 1:Ω], Δ_Plus[ω,t]<= P[ω,t]*D_T_V) 
     #(10)
-    @constraint(pool,Rest_Δ_Minus[t in 1:T, ω in 1:Ω],Δ_Minus[ω,t]<= P_Max*d_t_v)
+    @constraint(pool,Rest_Δ_Minus[t in 1:T, ω in 1:Ω],Δ_Minus[ω,t]<= P_Max*D_T_V)
     #(11) 
     for (t,ω,ωω) in product(1:T, 1:Ω, 1:Ω)
         if (O_D[ω,t]+1 == O_D[ωω,t])
@@ -114,7 +114,7 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
             end
         
             for t_two in (1:N_T_one)
-                    if P_S_τ[ωω,t_two]+ P_w_τ[ωω,t_two] != P_S_τ[ω,t_two]+P_w_τ[ω,t_two]
+                    if P_S_τ[ωω,t_two]+ P_W_τ[ωω,t_two] != P_S_τ[ω,t_two]+P_W_τ[ω,t_two]
                         status = true
                         break
                     end
@@ -126,8 +126,8 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
     end
     #(14)
     @constraint(pool,Not_neg[ω in 1:Ω],-sum(
-        λ_D[ω,t]*P_D[ω,t]*d_t_v+
-        λ_A[ω,t]*P_A[ω,t]*d_t_v +
+        λ_D[ω,t]*P_D[ω,t]*D_T_V+
+        λ_A[ω,t]*P_A[ω,t]*D_T_V +
         λ_D[ω,t]*(Δ_Plus[ω,t]*r_Plus[ω,t]-Δ_Minus[ω,t]*r_Minus[ω,t])
         for t in 1:T)+ζ-η[ω]<=0)
     #(15)
@@ -140,13 +140,14 @@ function calc_optimazation(α,β,scenario_path,P_S_Max,P_W_Max)
 end
 ##Main part
 ##System path to scenario csv-file and declartion of variables
-p = "C:\\Users\\wmd852\\Documents\\Doktorantenkurse\\Ketter\\Code_Gruppenabgabe\\Code\\data\\outputfile E_A_negativ.csv"
+path = "..\\data\\outputfile E_A_negativ.csv"
 α = 0.95
 list=[]
 beta = []
 ##iteration over all β between 0.0 and 1.0 in 0.05 steps
 for β in collect(0.0:0.05:1) 
-    rev = calc_optimazation(α,β,p_n,40000,40000)-calc_optimazation(α,β,p_n,0,40000)-calc_optimazation(α,β,p_n,40000,0)
+    rev = calc_optimization(α,β,path,40000,40000)-calc_optimization(α,β,path,0,40000)-calc_optimization(α,β,path,40000,0)
+    println(rev)
     push!(list,rev)
     push!(beta,β)
 end
@@ -164,5 +165,5 @@ figure = @pgf Axis(
             no_marks
         },
         Table(beta,list)))
-pgfsave("figure.tex",figure)
+pgfsave("..\\output\\figure.tex",figure)
 println("****Finsihed printing****")
