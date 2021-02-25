@@ -147,7 +147,6 @@ beta = []
 ##iteration over all β between 0.0 and 1.0 in 0.05 steps
 for β in collect(0.0:0.05:1) 
     rev = calc_optimization(α,β,path,40000,40000)-calc_optimization(α,β,path,0,40000)-calc_optimization(α,β,path,40000,0)
-    println(rev)
     push!(list,rev)
     push!(beta,β)
 end
@@ -165,5 +164,5 @@ figure = @pgf Axis(
             no_marks
         },
         Table(beta,list)))
-pgfsave("..\\output\\figure.tex",figure)
+pgfsave("..\\output\\figure_adjustment_model.tex",figure)
 println("****Finsihed printing****")
