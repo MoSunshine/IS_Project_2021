@@ -7,6 +7,8 @@ scenarios = CSV.read(scenario_path,DataFrame,delim=",")
 P_t_S = scenarios[!,"P_t_S"]
 P_t_W = scenarios[!,"P_t_W"]
 P_t = P_t_S + P_t_W
+λ_D = scenarios[!,"lambda_D"]
+λ_A = scenarios[!,"lambda_A"]
 
 println("Mean S,W, Ges:", mean(P_t_S), "    ", mean(P_t_W), "    ",mean(P_t))
 println("Variance S,W, Ges",  var(P_t_S), "    ", var(P_t_W), "     ", var(P_t))
@@ -16,7 +18,9 @@ println(sum(mean(P_t_S)+mean(P_t_W)))
 println(mean(P_t))
 println(sum(var(P_t_S)+var(P_t_S)))
 println(var(P_t))
-println(cor(P_t_S,P_t_W))
+println(" Correlation" , cor(P_t_S,P_t_W))
+
+println(mean(λ_A), "     ", mean(λ_D))
 
 
 
