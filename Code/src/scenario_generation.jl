@@ -1,10 +1,7 @@
 using Pkg
-Pkg.activate("..")
-Pkg.instantiate()
-using Statistics, Distributions, Clustering, ARCHModels, Distances, Plots,JuMP, IterTools, CPLEX, DataFrames, XLSX, Random, CSV
-
+using Statistics, Distributions, Clustering, ARCHModels, Distances, Plots, JuMP, IterTools, CPLEX, DataFrames, XLSX, Random, CSV
 path_input = "..\\data\\Historical Data.xlsx"
-path_output = "..\\data\\outputfile.xlsx"
+path_output = "..\\data\\outputfile.csv"
 sheet_input ="Results"
 Header=["P_tau" "P_tau_S" "P_tau_W" "P_t" "P_t_S" "P_t_W" "lambda_D" "lambda_A" "r_plus" "r_minus" "Pi" "Zeros" "O_Rank"]
 
@@ -240,3 +237,4 @@ Results=[Results Z O_Rank]
 
 df = convert(DataFrame, [Header;Results])
 CSV.write(path_output,df)
+print("DONE")

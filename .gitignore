@@ -33,3 +33,4 @@ Paper/WindPP.pdf
 *.aux
 #Visual Studio Code Configurations
 /Code/src/.vscode
+/Code/data/Historical Data.xlsx

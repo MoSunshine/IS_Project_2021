@@ -9,7 +9,7 @@ using JuMP, Plots, IterTools, CPLEX, DataFrames, XLSX, CSV, Statistics, PGFPlots
 ##@return Revenue of optimized model
 function calc_optimization(α,β,scenario_path,P_S_Max,P_W_Max)
     ##Read data
-    scenarios = CSV.read(scenario_path,DataFrame,delim=",")
+    scenarios = CSV.read(scenario_path,DataFrame,delim=",",header=2)
     ##Definition and declaration of variables
     Ω = size(scenarios, 1);
     P_Max = P_S_Max + P_W_Max
@@ -140,7 +140,7 @@ function calc_optimization(α,β,scenario_path,P_S_Max,P_W_Max)
 end
 ##Main part
 ##System path to scenario csv-file and declartion of variables
-path = "..\\data\\outputfile E_A_negativ.csv"
+path = "..\\data\\outputfile.csv"
 α = 0.95
 list=[]
 beta = []
@@ -165,4 +165,4 @@ figure = @pgf Axis(
         },
         Table(beta,list)))
 pgfsave("..\\output\\figure_adjustment_model.tex",figure)
-println("****Finsihed printing****")
+println("****Finished printing****")
